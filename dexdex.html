@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Palimpsesto</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: 'Georgia', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            background: black;
+            border: none;
+            border-bottom: 1px solid white;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            width: 300px;
+            text-align: center;
+            outline: none;
+        }
+
+        .message {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .visible {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Palimpsesto</h1>
+
+    <div class="subtitle">
+        Detalles, secretos entre palabras. ¿Conoces uno?
+    </div>
+
+    <input type="text" id="commandInput" autocomplete="off">
+
+    <div id="message" class="message">
+        Quizá sea buena idea seguir explorando…
+    </div>
+
+    <!-- Audio oculto -->
+    <audio id="consequenceSound" src="assets/consequences.mp3"></audio>
+
+    <script>
+        const input = document.getElementById("commandInput");
+        const message = document.getElementById("message");
+        const sound = document.getElementById("consequenceSound");
+
+        const commands = {
+            "MANZANA AMARILLA": "manzana-amarilla.html",
+            "GOMITAS DE TIBURON": "gomitas-tiburon.html",
+            "AGUA DE HORCHATA DE LA IMPERIAL": "horchata-imperial.html",
+            "MYOSOTIS": "myosotis.html",
+
+            //BONUS TRACKS
+            "ÑIBANYAN": "nibanyan.html",
+            "EL FENTANILO MATA": "fentanilo.html",
+
+            //MISTERIO ENFATIZADO
+            "NOTARIO": "notario.html"
+        };
+
+        // Reproduce el sonido al cargar la página
+        window.addEventListener("load", () => {
+            sound.volume = 0.6;
+            sound.play().catch(() => {
+                // Algunos navegadores bloquean autoplay; no hacemos nada
+            });
+        });
+
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const value = input.value.trim().toUpperCase();
+
+                if (commands[value]) {
+                    window.location.href = commands[value];
+                } else {
+                    message.classList.add("visible");
+                }
+
+                input.value = "";
+            }
+        });
+    </script>
+
+</body>
+</html>
